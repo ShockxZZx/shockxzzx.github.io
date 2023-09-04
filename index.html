@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferrets LLC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .cta-button {
+            background-color: #000000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1>Ferrets LLC Is Currently Down</h1>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        
+    </header>
+
+    <div class="container">
+        <h2>Subscribe For Updates</h2>
+        <form id="subscribe-form" action="subscribe.php" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="submit" class="cta-button">Subscribe</button>
+        </form>
+        <div id="confirmation-message">
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] === "POST") {
+                $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    
+                    
+                    echo "Thank you for subscribing! We will send updates to " . htmlspecialchars($email) . ".";
+                } else {
+                    
+                    echo "Invalid email address. Please enter a valid email.";
+                }
+            }
+            ?>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("subscribe-form");
+            const confirmationMessage = document.getElementById("confirmation-message");
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const email = document.getElementById("email").value;
+                
+                const sanitizedEmail = escapeHTML(email);
+                confirmationMessage.innerHTML = `Thank you for subscribing! We will send updates to ${sanitizedEmail}.`;
+                form.reset();
+            });
+
+            
+            function escapeHTML(str) {
+                return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            }
+        });
+    </script>
+</body>
+</html>
